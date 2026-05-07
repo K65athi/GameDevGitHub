@@ -50,8 +50,7 @@ public class Enemy : MonoBehaviour
     {
         if (EndpointIndex >= Endpoints.Length)
         {   
-            EndpointIndex = 0;
-            //return transform.position;
+            return transform.position;
         }
 
        Vector3 targetPoint = Endpoints[EndpointIndex].position;

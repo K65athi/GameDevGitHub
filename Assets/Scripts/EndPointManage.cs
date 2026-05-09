@@ -7,4 +7,5 @@ public class EndPointManage : MonoBehaviour
     [SerializeField] private Transform[] Endpoints;
 
     public Transform[] GetEndPoints() => Endpoints;
+
 }

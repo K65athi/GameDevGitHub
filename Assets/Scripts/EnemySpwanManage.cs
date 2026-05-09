@@ -11,10 +11,13 @@ public class WavesDetails
 
 public class EnemySpwanManage : MonoBehaviour
 {
-    [SerializeField] private WavesDetails currentWave;
+    [SerializeField] private WavesDetails[] Waves;
+    private int waveIndex;
     [SerializeField] private Transform respwan;
     [SerializeField] private float spawncooldown;
     private float spawanTime;
+    [SerializeField] private float nextWaveTime = 5f;
+    private bool waveFinished;
 
     private List<GameObject> enemyList;
     [Header("Enemy Prefabs")]
@@ -34,6 +37,12 @@ public class EnemySpwanManage : MonoBehaviour
                 CreateEnemy();
                 spawanTime = spawncooldown;
           }
+
+          if(enemyList.Count <= 0 && GameObject.FindGameObjectsWithTag("Enemy").Length <= 0 && !waveFinished)
+        {
+            waveFinished = true;
+            StartCoroutine(NewWave());
+        }
     }
     private void CreateEnemy()
     {
@@ -51,18 +60,40 @@ public class EnemySpwanManage : MonoBehaviour
 
     private List<GameObject> NewEnemy()
     {
+       if (waveIndex >= Waves.Length)
+       {
+            Debug.Log("Waves Completed");
+            return new List<GameObject>();
+       }
+
        List<GameObject> newEnemyList = new List<GameObject>();
 
-       for(int i = 0; i < currentWave.basicEnemy; i++)
+       for(int i = 0; i < Waves[waveIndex].basicEnemy; i++)
        {
             newEnemyList.Add(basicEnemy);
        }
 
-        for(int i = 0; i < currentWave.fastEnemy; i++)
+        for(int i = 0; i < Waves[waveIndex].fastEnemy; i++)
         {
             newEnemyList.Add(fastEnemy);
         }
 
+        waveIndex = waveIndex + 1;
+
         return newEnemyList;
     }
+
+    private IEnumerator NewWave()
+    {
+        yield return new WaitForSeconds(nextWaveTime);
+        enemyList = NewEnemy();
+        waveFinished = false;
+    }
+
+    [ContextMenu("Next Wave")]
+    private void NextWave()
+    {
+        enemyList = NewEnemy();
+    }
+    
 }

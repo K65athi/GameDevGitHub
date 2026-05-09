@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, Damage
 {
     private UnityEngine.AI.NavMeshAgent agent;
+
+    public float Health = 5;
+    [Header("Enemy Stats")]
 
     [SerializeField] private float turnSpeed = 10;
     [SerializeField] private Transform[] Endpoints;
@@ -57,6 +60,15 @@ public class Enemy : MonoBehaviour
        EndpointIndex = EndpointIndex + 1;
 
        return targetPoint;
+        
+    }
+
+    public void ApplyDamage(float damage)
+    {
+        Health = Health - damage;
+
+        if (Health <= 0)
+            Destroy(gameObject);
         
     }
 

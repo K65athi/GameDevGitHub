@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements.Experimental;
 
 public class CameraControl : MonoBehaviour
 {
+    [SerializeField] bool CanControll;
     [SerializeField] private Vector3 CenterPoint;
     [SerializeField] private float MaxDistanceFromCenter;
     [Header("Camera Movement")]
@@ -46,6 +48,8 @@ public class CameraControl : MonoBehaviour
 
     void Update()
     {
+        if (CanControll == false)
+            return;
         HandleRotation();
         HandleZoom();
         HandleMovement();
@@ -53,6 +57,9 @@ public class CameraControl : MonoBehaviour
 
         Crosshair.position = transform.position + (transform.forward * GetCrosshairDistance());
     }
+
+    public void EnableCameraControlls(bool enable) => CanControll = enable;
+    public float AdjustPitch(float value) => pitch = value;
 
     private void HandleZoom()
     {

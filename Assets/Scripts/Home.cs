@@ -4,11 +4,19 @@ using UnityEngine;
 
 public class Home : MonoBehaviour
 {
+    private GameManager gameManager;
     private void OnTriggerEnter(Collider other)
     {
        if(other.tag == "Enemy")
         {
-            Destroy(other.gameObject);
+            other.GetComponent<Enemy>().DestroyEnemy();
+
+            if(gameManager == null)
+                gameManager = FindAnyObjectByType<GameManager>();
+
+            if(gameManager != null)
+                gameManager.UpdateHp(-1);
+
         }
     }
 

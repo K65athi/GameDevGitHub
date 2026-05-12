@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.UIElements.Experimental;
 
 public class CameraControl : MonoBehaviour
 {
@@ -10,7 +8,8 @@ public class CameraControl : MonoBehaviour
     [SerializeField] private Vector3 CenterPoint;
     [SerializeField] private float MaxDistanceFromCenter;
     [Header("Camera Movement")]
-    [SerializeField] private float moveSpeed = 150;
+    [SerializeField] private float MovementSpeed = 150;
+    [SerializeField] private float MouseMovementSpeed = 15f;
 
     // optional Mouse movement
      /*
@@ -39,6 +38,8 @@ public class CameraControl : MonoBehaviour
     private Vector3 velocity = Vector3.zero;
     private Vector3 ZoomVelocity = Vector3.zero;
     private Vector3 EdgeVelocity = Vector3.zero;
+    private Vector3 MouseMovementVelo = Vector3.zero;
+    private Vector3 lastMousePosition;
 
     void Start()
     {
@@ -52,6 +53,7 @@ public class CameraControl : MonoBehaviour
             return;
         HandleRotation();
         HandleZoom();
+        HandleMouseMovement();
         HandleMovement();
         //HandleMouseEdgeMovement();
 
@@ -60,6 +62,8 @@ public class CameraControl : MonoBehaviour
 
     public void EnableCameraControlls(bool enable) => CanControll = enable;
     public float AdjustPitch(float value) => pitch = value;
+    public float AdjustKeyBoardSens(float value) => MovementSpeed = value;
+    public float AdjustMouseSens(float value) => MouseMovementSpeed = value;
 
     private void HandleZoom()
     {
@@ -111,14 +115,14 @@ public class CameraControl : MonoBehaviour
 
         Vector3 Forward = Vector3.ProjectOnPlane(transform.forward, Vector3.up);
         if(VertInput > 0)
-            targetpos += Forward * moveSpeed * Time.deltaTime;
+            targetpos += Forward * MovementSpeed * Time.deltaTime;
         if(VertInput < 0)
-            targetpos -= Forward * moveSpeed * Time.deltaTime;
+            targetpos -= Forward * MovementSpeed * Time.deltaTime;
 
         if(HorInput > 0)
-           targetpos += transform.right * moveSpeed * Time.deltaTime;
+           targetpos += transform.right * MovementSpeed * Time.deltaTime;
         if(HorInput < 0)
-            targetpos -= transform.right * moveSpeed * Time.deltaTime;
+            targetpos -= transform.right * MovementSpeed * Time.deltaTime;
 
         if(Vector3.Distance(CenterPoint, targetpos) > MaxDistanceFromCenter)
         {
@@ -126,6 +130,35 @@ public class CameraControl : MonoBehaviour
         }
 
         transform.position = Vector3.SmoothDamp(transform.position, targetpos, ref velocity, smoothTime);
+    }
+
+    private void HandleMouseMovement()
+    {
+        if (Input.GetMouseButton(2))
+        {
+            lastMousePosition = Input.mousePosition;
+        }
+
+        if (Input.GetMouseButton(2))
+        {
+            Vector3 positionDifference = Input.mousePosition - lastMousePosition;
+            Vector3 moveRight = transform.right * (-positionDifference.x) * MouseMovementSpeed * Time.deltaTime;
+            Vector3 moveForward = transform.forward * (-positionDifference.y) * MouseMovementSpeed * Time.deltaTime;
+
+            moveRight.y = 0;
+            moveForward.y = 0;
+
+            Vector3 movement = moveRight + moveForward;
+            Vector3 targetPosition = transform.position + movement;
+
+            if (Vector3.Distance(CenterPoint, targetPosition) > MaxDistanceFromCenter)
+            {
+                targetPosition = CenterPoint + (targetPosition - CenterPoint).normalized * MaxDistanceFromCenter;
+            }
+
+            transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref MouseMovementVelo, smoothTime);
+            lastMousePosition = Input.mousePosition;
+        }
     }
 
     // Optional movement for mouse when it goes to the edge 

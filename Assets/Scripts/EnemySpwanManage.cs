@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 [System.Serializable]
@@ -12,20 +13,24 @@ public class WavesDetails
 public class EnemySpwanManage : MonoBehaviour
 {
     [SerializeField] private WavesDetails[] Waves;
-    private int waveIndex;
-    [SerializeField] private Transform respwan;
-    [SerializeField] private float spawncooldown;
+    private int WaveIndex;
+    [SerializeField] private Transform Respwan;
+    [SerializeField] private float SpawnCooldown;
     private float spawanTime;
-    [SerializeField] private float nextWaveTime = 5f;
-    private bool waveFinished;
+    [SerializeField] private float NextWaveTime = 5f;
+    private bool WaveFinished;
 
     private List<GameObject> enemyList;
+    private InGameUI ui_InGame;
+
     [Header("Enemy Prefabs")]
     [SerializeField] private GameObject basicEnemy;
     [SerializeField] private GameObject fastEnemy;
 
     private void Start()
     {
+        ui_InGame = FindFirstObjectByType<InGameUI>();
+
         enemyList = NewEnemy();
     }
 
@@ -35,19 +40,19 @@ public class EnemySpwanManage : MonoBehaviour
          if(spawanTime <= 0 && enemyList.Count > 0)
           {
                 CreateEnemy();
-                spawanTime = spawncooldown;
+                spawanTime = SpawnCooldown;
           }
 
-          if(enemyList.Count <= 0 && GameObject.FindGameObjectsWithTag("Enemy").Length <= 0 && !waveFinished)
+          if(enemyList.Count <= 0 && GameObject.FindGameObjectsWithTag("Enemy").Length <= 0 && !WaveFinished)
         {
-            waveFinished = true;
+            WaveFinished = true;
             StartCoroutine(NewWave());
         }
     }
     private void CreateEnemy()
     {
         GameObject randomEnemy = RandomEnemy();
-         GameObject newEnemy = Instantiate(randomEnemy, respwan.position, Quaternion.identity);
+         GameObject newEnemy = Instantiate(randomEnemy, Respwan.position, Quaternion.identity);
     }
 
     private GameObject RandomEnemy()
@@ -60,7 +65,7 @@ public class EnemySpwanManage : MonoBehaviour
 
     private List<GameObject> NewEnemy()
     {
-       if (waveIndex >= Waves.Length)
+       if (WaveIndex >= Waves.Length)
        {
             Debug.Log("Waves Completed");
             return new List<GameObject>();
@@ -68,26 +73,33 @@ public class EnemySpwanManage : MonoBehaviour
 
        List<GameObject> newEnemyList = new List<GameObject>();
 
-       for(int i = 0; i < Waves[waveIndex].basicEnemy; i++)
+       for(int i = 0; i < Waves[WaveIndex].basicEnemy; i++)
        {
             newEnemyList.Add(basicEnemy);
        }
 
-        for(int i = 0; i < Waves[waveIndex].fastEnemy; i++)
+        for(int i = 0; i < Waves[WaveIndex].fastEnemy; i++)
         {
             newEnemyList.Add(fastEnemy);
         }
 
-        waveIndex = waveIndex + 1;
+        WaveIndex = WaveIndex + 1;
 
         return newEnemyList;
     }
 
     private IEnumerator NewWave()
     {
-        yield return new WaitForSeconds(nextWaveTime);
+        float countdown = NextWaveTime;
+        while(countdown > 0)
+        {
+            ui_InGame.UpdateTimerUI(countdown);
+            countdown = countdown - Time.deltaTime;
+            yield return null;
+        }
+
         enemyList = NewEnemy();
-        waveFinished = false;
+        WaveFinished = false;
     }
 
     [ContextMenu("Next Wave")]

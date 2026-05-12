@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 public class Enemy : MonoBehaviour, Damage
 {
+    private GameManager gameManager;
     private UnityEngine.AI.NavMeshAgent agent;
 
     public float Health = 5;
@@ -10,6 +11,7 @@ public class Enemy : MonoBehaviour, Damage
 
     [SerializeField] private float turnSpeed = 10;
     [SerializeField] private Transform[] Endpoints;
+
     private int EndpointIndex; 
 
     private void Awake()
@@ -17,6 +19,7 @@ public class Enemy : MonoBehaviour, Damage
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         agent.updateRotation = false;
         agent.avoidancePriority = Mathf.RoundToInt(agent.speed * 10);
+        gameManager = FindFirstObjectByType<GameManager>();
     }
 
     private void Start()
@@ -68,8 +71,19 @@ public class Enemy : MonoBehaviour, Damage
         Health = Health - damage;
 
         if (Health <= 0)
-            Destroy(gameObject);
+            Death();
         
+    }
+
+    private void Death()
+    {
+        gameManager.UpdateScraps(1);
+        Destroy(gameObject);
+    }
+
+    public void DestroyEnemy()
+    {
+        Destroy(gameObject);
     }
 
 } 

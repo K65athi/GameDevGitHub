@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,7 +7,19 @@ public class UI : MonoBehaviour
 {
     [SerializeField] private GameObject[] uiFeatures;
 
-    public void SwitchUi(GameObject uiToEnable)
+    private UISettings UI_Settings;
+    private MainMenuUI UI_MainMenu;
+
+    private void Awake()
+    {
+        UI_Settings = GetComponentInChildren<UISettings>(true);
+        UI_MainMenu = GetComponentInChildren<MainMenuUI>(true);
+
+        SwitchTo(UI_Settings.gameObject);
+        SwitchTo(UI_MainMenu.gameObject);
+    }
+
+    public void SwitchTo(GameObject uiToEnable)
     {
         foreach (GameObject ui in uiFeatures)
         {

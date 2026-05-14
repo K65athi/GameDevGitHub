@@ -30,7 +30,8 @@ public class EnemySpwanManage : MonoBehaviour
     private void Start()
     {
         ui_InGame = FindFirstObjectByType<InGameUI>();
-
+        ui_InGame.EnableWaveTimer(false);
+        // Creatting first waves of enemy
         enemyList = NewEnemy();
     }
 
@@ -46,6 +47,7 @@ public class EnemySpwanManage : MonoBehaviour
           if(enemyList.Count <= 0 && GameObject.FindGameObjectsWithTag("Enemy").Length <= 0 && !WaveFinished)
         {
             WaveFinished = true;
+            ui_InGame.EnableWaveTimer(true);
             StartCoroutine(NewWave());
         }
     }
@@ -91,6 +93,7 @@ public class EnemySpwanManage : MonoBehaviour
     private IEnumerator NewWave()
     {
         float countdown = NextWaveTime;
+        // Runs the countdown for next wave
         while(countdown > 0)
         {
             ui_InGame.UpdateTimerUI(countdown);
@@ -98,6 +101,7 @@ public class EnemySpwanManage : MonoBehaviour
             yield return null;
         }
 
+        ui_InGame.EnableWaveTimer(false);
         enemyList = NewEnemy();
         WaveFinished = false;
     }

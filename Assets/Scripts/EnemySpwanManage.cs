@@ -69,7 +69,11 @@ public class EnemySpwanManage : MonoBehaviour
     {
        if (WaveIndex >= Waves.Length)
        {
-            Debug.Log("Waves Completed");
+            Debug.Log("Level Complete");
+
+            LevelProgress.CompleteLevel1();
+            ui_InGame.ShowVictoryText();
+
             return new List<GameObject>();
        }
 

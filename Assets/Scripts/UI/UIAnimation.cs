@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class UIAnimation : MonoBehaviour
@@ -28,4 +29,24 @@ public class UIAnimation : MonoBehaviour
 
             rectTransform.anchoredPosition = targetPosition;
         }
+
+     public void ChangeScale(Transform transform, float TargetScale, float duration = .3f)
+    {
+        RectTransform rectTransform = transform.GetComponent<RectTransform>();
+        StartCoroutine(ChangeScaleCoroutine(rectTransform, TargetScale, duration));
+    }
+
+    public IEnumerator ChangeScaleCoroutine(RectTransform rectTransform, float NewScale, float duration = .25f)
+    {
+        float time = 0;
+        Vector3 InitialScale = rectTransform.localScale;
+        Vector3 TargetScale = new Vector3(NewScale, NewScale, NewScale);
+
+        while (time < duration)
+        {
+            rectTransform.localScale = Vector3.Lerp(InitialScale, TargetScale, time / duration);
+            time = time + Time.deltaTime;
+            yield return null;
+        }
+    }
 }

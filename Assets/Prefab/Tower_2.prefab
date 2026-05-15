@@ -318,7 +318,7 @@ MonoBehaviour:
   AttackCooldown: 1
   TowerHead: {fileID: 6127811936153453963}
   rotationspeed: 10
-  AttackRange: 3
+  AttackRange: 3.5
   EnemyLayer:
     serializedVersion: 2
     m_Bits: 128

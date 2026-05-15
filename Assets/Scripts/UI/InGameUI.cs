@@ -6,6 +6,13 @@ using UnityEngine;
 
 public class InGameUI : MonoBehaviour
 {
+    private UI ui;
+    private PauseUI UiPause;
+
+    [SerializeField] private GameObject NotEnoughScraps;
+    [SerializeField] private GameObject VictoryUI;
+    [SerializeField] private GameObject GameOverUI;
+
     [SerializeField] private TextMeshProUGUI ScrapsNumber;
     [SerializeField] private TextMeshProUGUI HealthPointNumber;
     [SerializeField] private TextMeshProUGUI WaveTimerNumber;
@@ -16,6 +23,14 @@ public class InGameUI : MonoBehaviour
     private void Awake()
     {
         UiAnimator = GetComponentInParent<UIAnimation>();
+        ui = GetComponentInParent<UI>();
+        UiPause = ui.GetComponentInChildren<PauseUI>(true);
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+            ui.SwitchTo(UiPause.gameObject);
     }
 
     public void UpdateHealthPoint(int value, int maxValue)
@@ -38,13 +53,23 @@ public class InGameUI : MonoBehaviour
         WaveTimerNumber.gameObject.SetActive(value);
     }
 
+    public void ShowWarningText()
+    {
+        StopAllCoroutines();
+        StartCoroutine(WarningCoroutine());
+    }
 
+    private IEnumerator WarningCoroutine()
+    {
+        NotEnoughScraps.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        NotEnoughScraps.SetActive(false);
+    }
     /// Change this
     private bool timerVisible = false;
 
     public void EnableWaveTimer(bool enable)
     {
-        // Stops repeated movement
         if (timerVisible == enable)
             return;
 
@@ -54,18 +79,27 @@ public class InGameUI : MonoBehaviour
 
         Vector3 offset;
 
-        // Show timer
         if (enable)
         {
-            // Move DOWN into screen
             offset = new Vector3(0, WaveTimerOffset);
         }
         else
         {
-            // Move UP out of screen
             offset = new Vector3(0, -WaveTimerOffset);
         }
 
         UiAnimator.ChangePosition(waveTimerTransform, offset);
-}
+    }
+
+    public void ShowVictoryText()
+    {
+        VictoryUI.SetActive(true);
+    }
+
+    public void ShowGameOverUI()
+    {
+        GameOverUI.SetActive(true);
+    }
+
+    
 }    

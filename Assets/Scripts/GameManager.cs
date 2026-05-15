@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
         CurrentHp += value;
         UI_InGame.UpdateHealthPoint(CurrentHp, MaxHp);
 
-        if(CurrentHp <= 0);
+        if(CurrentHp <= 0)
         {
             CurrentHp = 0;
             UI_InGame.ShowGameOverUI();

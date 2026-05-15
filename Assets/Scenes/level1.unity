@@ -6399,7 +6399,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   Scraps: 10
   MaxHp: 100
-  CurrentHp: 1
+  CurrentHp: 100
 --- !u!4 &330801969
 Transform:
   m_ObjectHideFlags: 0

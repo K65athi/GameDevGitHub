@@ -36,10 +36,12 @@ public class CameraTransitions : MonoBehaviour
         CamController.AdjustPitch(InMainMenuRotation.eulerAngles.x);
     }
 
-
+    // Switches the camera into gameplay view
     public void SwitchInGameView()
     {
+        // Starts smooth camera transition
         StartCoroutine(ChangingRotationAndRotation(InGamePosition, InGameRotation));
+        // Updates camera pitch rotation
         CamController.AdjustPitch(InGameRotation.eulerAngles.x);
     }
 

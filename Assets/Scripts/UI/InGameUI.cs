@@ -33,18 +33,22 @@ public class InGameUI : MonoBehaviour
             ui.SwitchTo(UiPause.gameObject);
     }
 
+    // Updates the Players health UI while gameplay
     public void UpdateHealthPoint(int value, int maxValue)
     {
+        // Displays current health and maximum health on screen
         HealthPointNumber.text = "Health - " + value + "/" + maxValue;
     }
-
+    // Updates the recources amount shown in UI
     public void UpdateScrapsUI(int value)
     {
+        // Displays the current amount of scraps available to player
         ScrapsNumber.text = "Scraps - " + value;
     }
-
+    // Updates the countdown timer until the next enemy wave
     public void UpdateTimerUI(float value)
     {
+        // Round the timer value and displays it on the UI
         WaveTimerNumber.text = "Next Wave - " + Mathf.RoundToInt(value);
     }
 

@@ -6444,7 +6444,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!65 &331668149
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8642,7 +8642,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.05
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 1b30c2b99ba4a874083f3f824d0e70f7, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: b0eb9bf1cf370304591d4bc34b6e7bac, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &391379981
 Transform:
@@ -9690,6 +9690,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InGameUI
   NotEnoughScraps: {fileID: 216365954}
   VictoryUI: {fileID: 1069951334}
+  GameOverUI: {fileID: 0}
   ScrapsNumber: {fileID: 1161112543}
   HealthPointNumber: {fileID: 1588861157}
   WaveTimerNumber: {fileID: 2074725638}
@@ -11394,7 +11395,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!65 &564695137
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13644,7 +13645,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!65 &706722786
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -17341,7 +17342,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!65 &864873612
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -24208,7 +24209,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!65 &1223640635
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -39229,7 +39230,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!65 &1956569433
 BoxCollider:
   m_ObjectHideFlags: 0

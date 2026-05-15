@@ -26,10 +26,10 @@ public class Enemy : MonoBehaviour, Damage
     {
         Endpoints = FindFirstObjectByType<EndPointManage>().GetEndPoints();
     }
-
+    // Updates enemy movement every frame
     private void Update()
     {
-
+        // Rotates the enemy towards its navigation target
         FaceTarget(agent.steeringTarget);
 
         // Check if the agent has reached its destination
